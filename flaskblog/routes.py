@@ -116,5 +116,14 @@ def account():
         form.email.data = current_user.email
     
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+    
+    # cek profile picturenya ada atau tidak
+    if os.path.exists('flaskblog'+image_file):
+        pass
+    else:
+        # kalo gaada prof pic, set ke default
+        current_user.image_file = 'default.jpg'
+        db.session.commit()
+        image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
 
     return render_template('account.html', title='Account', image_file=image_file, form=form)
